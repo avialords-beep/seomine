@@ -70,6 +70,7 @@
       --content-max: 1100px;
       --lh: 1.65;
 
+      /* важно: это высота “запаса” под фикс-шапку */
       --nav-offset: 92px;
 
       --faq-bg: rgba(0,0,0,0.34);
@@ -182,6 +183,9 @@
       backdrop-filter: blur(12px);
       padding: 10px 12px;
       box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+
+      /* ✅ фикс: разрешаем перенос строк в шапке, чтобы ничего не налезало */
+      flex-wrap: wrap;
     }
 
     .brand{
@@ -328,6 +332,7 @@
       margin-top: var(--s-4);
       display:grid;
       place-items:center;
+      width: 100%;
     }
 
     .video-decor{
@@ -335,6 +340,10 @@
       display: grid;
       place-items: center;
       width: 100%;
+
+      /* ✅ фикс: добавляем вертикальный “воздух”,
+         чтобы кирки точно помещались и не “уезжали” */
+      padding: 14px 0;
     }
     .pickaxes-bg{
       position: absolute;
@@ -358,9 +367,11 @@
       background:#000;
       box-shadow: 0 18px 50px rgba(0,0,0,0.45);
       border: 1px solid rgba(255,255,255,0.14);
-
       position: relative;
       z-index: 2;
+
+      /* ✅ фикс: центрируем железобетонно */
+      margin: 0 auto;
     }
     .phone video{
       width:100%;
@@ -374,6 +385,7 @@
       font-size: 13px;
       text-transform: uppercase;
       letter-spacing: 1px;
+      text-align: center;
     }
 
     /* ======= FEATURES ======= */
@@ -535,18 +547,57 @@
     @media (max-width: 860px){
       .nav-links{ display:none; }
       .brand{ min-width: 0; }
+      .nav-cta{ min-width: 0; }
     }
+
     @media (max-width: 720px){
       .chips{ flex-wrap: wrap; gap: 8px; }
       .pickaxes-bg{ width: 360px; }
     }
+
+    /* ✅ Главный фикс под мобилы: шапка становится в 2 строки, кнопки не лезут на лого,
+       и увеличиваем --nav-offset, чтобы контент НЕ залезал под фикс-шапку */
     @media (max-width: 520px){
-      .btn{ width: 100%; }
-      .nav-inner{ gap: 10px; }
-      .nav-cta{ flex: 1; width: 100%; }
-      .nav-cta .btn{ flex: 1; }
+      :root{ --nav-offset: 140px; }
+
+      .nav{ padding: 10px 10px; }
+      .nav-inner{
+        gap: 10px;
+        padding: 10px 10px;
+        justify-content: center;
+      }
+
+      .brand{
+        flex: 1 1 100%;
+        min-width: 0;
+        justify-content: center;
+      }
+      .brand-text{
+        align-items: center;
+        text-align: center;
+      }
+
+      .nav-cta{
+        flex: 1 1 100%;
+        width: 100%;
+        min-width: 0;
+        justify-content: center;
+      }
+
+      /* ✅ кнопки меньше и в одну строку (2 штуки рядом), без налезаний */
+      .nav-cta .btn{
+        width: calc(50% - 6px);
+        padding: 10px 10px;
+        border-radius: 12px;
+      }
+      .btn span{ font-size: 13px; }
+
+      /* ✅ видео меньше + строго по центру, чтобы кирки влезали по бокам */
+      .phone{ width: min(300px, 78vw); }
+      .pickaxes-bg{ width: 340px; max-width: 140%; }
+
+      /* кнопки в секциях пусть будут 100% — это ок */
       .actions .btn{ width: 100%; min-width: 0; }
-      .pickaxes-bg{ width: 320px; }
     }
   </style>
 </head>
